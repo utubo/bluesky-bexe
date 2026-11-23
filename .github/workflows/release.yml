@@ -1,0 +1,96 @@
+name: "Publish Release"
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+# Automatically cancel old builds if a new push is made to the same tag or branch
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  release:
+    permissions:
+      contents: write
+    timeout-minutes: 25
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - platform: windows-latest
+            args: ''
+
+    runs-on: ${{ matrix.platform }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 1. Set up Node.js (with npm cache enabled)
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      # 2. Set up Rust toolchain
+      - name: Setup Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      # 3. Rust build cache (Cargo)
+      - name: Rust Cache
+        uses: Swatinem/rust-cache@v2
+        with:
+          prefix-key: "tauri-build"
+          workspaces: "src-tauri"
+
+      # 4. Install dependencies
+      - name: Install dependencies
+        run: npm install
+
+      # 5. Run unit tests before building
+      - name: Run unit tests
+        run: npm run test:run
+
+      # 6. Build Tauri application using Tauri CLI
+      - name: Build Tauri App
+        shell: bash
+        run: |
+          BUILD_TIME_STR=$(date -u +"%Y-%m-%d %H:%M:%S UTC")
+          echo "BUILD_TIME=$BUILD_TIME_STR" >> $GITHUB_ENV
+          export VITE_BUILD_TIME="$BUILD_TIME_STR"
+          npx tauri build
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # 7. Create GitHub Release and upload built binaries
+      - name: Create Release and Upload Assets
+        shell: bash
+        env:
+          GITHUB_TOKEN: ${{ secrets.RELEASE_PAT }}
+        run: |
+          REPO="utubo/bluesky-bexe-releases"
+          TAG="${{ github.ref_name }}"
+
+          # Create release and upload binary assets
+          gh release create "$TAG" \
+            --repo "$REPO" \
+            --title "App $TAG" \
+            --notes "## What's Changed
+            See the assets below to download and install this version.
+
+            **Build Time:** $BUILD_TIME
+
+            ---
+
+            ## Open Source Software Licenses
+            This application uses the following open-source software:
+            - @atproto/api (MIT)
+            - Tauri & Tauri Plugins (MIT / Apache-2.0)
+            - Svelte & SvelteKit (MIT)
+            - Vite (MIT)
+            - Serde & Serde_json (MIT / Apache-2.0)" \
+            src-tauri/target/release/bundle/nsis/*.exe \
+            src-tauri/target/release/bundle/msi/*.msi \
+            src-tauri/target/release/bexe.exe

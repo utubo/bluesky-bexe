@@ -1,0 +1,366 @@
+/* ==========================================
+   1. Theme Variables & Base Styles
+   ========================================== */
+:root {
+  --text-main: #f7f9f9;
+  --text-muted: #8b98a5;
+  --text-input: #fff;
+  --text-btn-primary: #fff;
+  --bg-app: #0f1419;
+  --bg-card: #161e27;
+  --bg-input: #1e2732;
+  --border-color: #9995;
+  --border-input: #38444d;
+  --accent-color: #1d9bf0;
+  --danger-color: #f4515e;
+  --icon-color-repost: #70BF70;
+  --icon-color-like: #f91880;
+  --icon-color-bookmark: var(--accent-color);
+  --icon-color-follow: var(--accent-color);
+  --icon-color-success: #4ADE80;
+  --icon-color-info: #3B82F6;
+  --icon-color-error: #F43F5E;
+  --icon-color-reply: var(--accent-color);
+  --text-btn-hover: #fff;
+  --bg-btn-hover: color-mix(in srgb, var(--accent-color) 15%, transparent);
+  --bg-gray-hover: color-mix(in srgb, var(--text-main) 10%, transparent);
+  --bg-card-focus: color-mix(in srgb, var(--accent-color) 12%, var(--bg-card));
+  --bg-card-secondaly: color-mix(in srgb, var(--text-main) 6%, transparent);
+  --bg-card-secondaly-hover: color-mix(in srgb, var(--accent-color) 12%, transparent);
+  --bg-danger: color-mix(in srgb, var(--danger-color) 10%, var(--bg-card));
+  --bg-btn-secondaly: color-mix(in srgb, var(--text-main) 10%, transparent);
+
+  --media-thumb-height: 15rem;
+  --media-thumb-height-sm: 10rem;
+  --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  --dur: 0.2s;
+  --dur-slow: 0.4s;
+  --trans-bc: background var(--dur), color var(--dur);
+
+  font-size: var(--font-size, 16px);
+  --font-xs: 0.72rem;
+  --font-sm: 0.78rem;
+  --font-md: 0.82rem;
+  --font-lg: 0.88rem;
+  --icon-xs: 0.7rem;
+
+  --sp-xs: 2px;
+  --sp-md: 6px;
+  --sp-lg: 8px;
+  --rad-md: 6px;
+  --rad-lg: 8px;
+}
+
+.theme-light {
+  --text-main: #0f1419;
+  --text-muted: #536471;
+  --text-input: #0f1419;
+  --bg-app: #ffffff;
+  --bg-card: #f7f9f9;
+  --bg-input: #eff3f4;
+  --border-color: #9995;
+  --border-input: #cfd9de;
+}
+
+.theme-sepia {
+  --text-main: #5f4b32;
+  --text-muted: #8c7355;
+  --text-input: #5f4b32;
+  --bg-app: #fbf0d9;
+  --bg-card: #f4ebd0;
+  --bg-input: #eae1c8;
+  --border-color: #e2d7bd;
+  --border-input: #d4c5a9;
+}
+
+.theme-cream {
+  --text-main: #800;
+  --text-muted: #8006;
+  --text-input: #111111;
+  --bg-app: #ffffee;
+  --bg-card: #ffffe0;
+  --bg-input: #ffffff;
+  --border-color: #ccbb99;
+  --border-input: #b8a078;
+}
+
+.theme-gray {
+  --text-main: #333;
+  --text-muted: #555;
+  --text-input: #000;
+  --bg-app: #bbb;
+  --bg-card: #ccc;
+  --bg-input: #ddd;
+  --border-color: #aaa;
+  --border-input: #0000;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background-color: var(--bg-app);
+  color: var(--text-main);
+}
+
+.container {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  max-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ==========================================
+   2. Feed Layout & Custom Scrollbar
+   ========================================== */
+.feed-wrapper {
+  position: relative;
+  flex-grow: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.feed-section {
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  overflow-anchor: auto;
+  scrollbar-width: none;
+  opacity: 1;
+}
+
+.feed-loading {
+  opacity: 0;
+}
+
+.feed-section::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  display: none;
+}
+
+/* ==========================================
+   3. Common UI & Forms
+   ========================================== */
+.loading-box {
+  text-align: center;
+  padding: 100px 0;
+  color: var(--text-muted);
+}
+
+.card {
+  background-color: var(--bg-card);
+  padding: 4px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.login-box {
+  margin-top: 60px;
+}
+
+.field {
+  margin-bottom: 12px;
+}
+
+.field-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.field-checkbox input[type="checkbox"] {
+  width: auto;
+  margin: 0;
+  cursor: pointer;
+}
+
+.field-checkbox label {
+  margin-bottom: 0;
+  cursor: pointer;
+  user-select: none;
+}
+
+label {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+input,
+textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px;
+  border-radius: var(--rad-md);
+  border: 1px solid var(--border-input);
+  background-color: var(--bg-input);
+  color: var(--text-input);
+  font-size: 0.95rem;
+  overflow-y: hidden;
+}
+
+input:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--accent-color);
+}
+
+button {
+  background: transparent;
+  color: inherit;
+  border: none;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
+  transition: var(--trans-bc);
+}
+button:focus,
+button:hover:not(:disabled) {
+  background-color: var(--bg-btn-hover);
+  color: var(--accent-color);
+}
+button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.btn-primary, .btn-danger {
+  background-color: var(--accent-color);
+  color: var(--text-btn-primary);
+  border: none;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  margin: 4px;
+}
+
+.btn-secondary {
+  opacity: .8;
+  padding: 8px 16px;
+  border-radius: var(--rad-md);
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--trans-bc);
+  margin-top: 4px;
+  background: var(--bg-btn-secondaly);
+}
+
+.btn-secondary:hover {
+  opacity: 1;
+}
+
+.btn-danger {
+  background: color-mix(in srgb, var(--danger-color) 30%, var(--bg-card)) !important;
+  color: var(--danger-color) !important;
+  transition: var(--dur);
+}
+
+.btn-danger:hover {
+  background: color-mix(in srgb, var(--danger-color) 40%, var(--bg-card)) !important;
+}
+
+.tool-btn {
+  color: var(--text-muted);
+  background: transparent;
+  padding: var(--sp-md);
+  border-radius: var(--rad-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.tool-btn .icon-base {
+  transition: var(--dur);
+}
+
+.tool-btn.active {
+  color: var(--accent-color) !important;
+  background-color: var(--bg-btn-hover) !important;
+}
+
+.tool-btn:hover {
+  color: var(--accent-color);
+  background-color: var(--bg-btn-hover);
+}
+
+.tool-btn:hover .icon-base {
+  opacity: 1;
+  transform: scale(1.2);
+}
+
+.compose-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 8px;
+}
+
+/* ==========================================
+   4. Common Utilities & Animations
+   ========================================== */
+.fade-in {
+  opacity: 1;
+  transition: opacity var(--dur) ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes coinSpin {
+  0% {
+    transform: perspective(400px) rotateY(0deg);
+    filter: brightness(1);
+  }
+  50% {
+    transform: perspective(400px) rotateY(180deg);
+    filter: brightness(1.4);
+  }
+  100% {
+    transform: perspective(400px) rotateY(360deg);
+    filter: brightness(1);
+  }
+}
+
+.coin-spin {
+  animation: coinSpin 1s infinite linear;
+  transform-style: preserve-3d;
+}
+
+.end-dot {
+  border-radius: 50%;
+  width: .6rem;
+  height: .6rem;
+  margin: auto;
+  background: var(--text-muted);
+}
+
+.end-of-feed {
+  padding: 6px;
+  background: var(--bg-app);
+  cursor: pointer;
+}
+
+.empty-state {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  align-content: center;
+  color: var(--text-muted);
+  background: var(--bg-card);
+  z-index: 5;
+}
+
