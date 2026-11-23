@@ -64,18 +64,15 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      # 7. Create GitHub Release and upload built binaries
+      # 7. Create GitHub Release and upload built binaries to this repository
       - name: Create Release and Upload Assets
         shell: bash
         env:
-          GITHUB_TOKEN: ${{ secrets.RELEASE_PAT }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          REPO="utubo/bluesky-bexe-releases"
           TAG="${{ github.ref_name }}"
 
-          # Create release and upload binary assets
           gh release create "$TAG" \
-            --repo "$REPO" \
             --title "App $TAG" \
             --notes "## What's Changed
             See the assets below to download and install this version.
@@ -94,3 +91,4 @@ jobs:
             src-tauri/target/release/bundle/nsis/*.exe \
             src-tauri/target/release/bundle/msi/*.msi \
             src-tauri/target/release/bexe.exe
+
