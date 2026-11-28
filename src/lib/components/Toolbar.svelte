@@ -73,9 +73,9 @@
       activeTab === 'thread' ? [{ id: 'thread_tab', type: 'thread_tab', hasBack: true }] :
       activeTab === 'quotes' ? [{ id: 'quotes_tab', type: 'quotes_tab', hasBack: true }] :
       activeTab === 'search' ? [{ id: 'search_tab', type: 'search_tab', hasBack: true }] :
-      activeTab === 'feed' && selectedFeed ? [{ id: 'feed_tab', type: 'feed_tab', hasBack: true }] : []
+      activeTab === 'feed' && selectedFeed ? [{ id: 'feed_tab', type: 'feed_tab', hasBack: true }] :
+      temporaryMenuTab ? [temporaryMenuTab] : []
     ),
-    ...(temporaryMenuTab ? [temporaryMenuTab] : []),
   ]);
 
   let leftItems = $derived([
