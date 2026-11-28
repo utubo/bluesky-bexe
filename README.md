@@ -1,5 +1,3 @@
-# bexe
-
 # ![bexe icon](src/assets/icon.png) bexe
 
 A lightweight, personal Bluesky client for Windows.
