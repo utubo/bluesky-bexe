@@ -66,6 +66,12 @@ export const NO_TARGET: Target = {
   tab: 'timeline', key: ''
 }
 
+interface FeedHistoryEntry {
+  activeTab: TabType;
+  target: Target;
+  feed: FeedState;
+}
+
 /** Queue recheck interval in milliseconds (5 seconds) */
 const QUEUE_RECHECK_MSEC = 5000;
 /** Maximum number of posts to cache per tab */
@@ -120,6 +126,20 @@ class FeedStore {
   /** Returns the post list for the currently active tab */
   get currentPosts() {
     return !this.isFeedLoading && this.feeds[this.activeTab]?.posts || [];
+  }
+
+  snapshotHistoryEntry(): FeedHistoryEntry {
+    return {
+      activeTab: this.activeTab,
+      feed: Object.assign({}, this.feeds[this.activeTab]),
+      target: Object.assign({}, this.target),
+    };
+  }
+
+  applyHistoryEntry(history: FeedHistoryEntry) {
+    this.activeTab = history.activeTab;
+    Object.assign(this.feeds[history.activeTab], history.feed);
+    Object.assign(this.target, history.target);
   }
 
   // ==========================================

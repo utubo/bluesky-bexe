@@ -8,7 +8,14 @@
   import { restoreSession, login, logout, agent, type PostRef, type MyFeed } from "$lib/bsky";
   import { settingsStore } from '$lib/settingsStore.svelte';
   import { searchHistoryStore } from '$lib/searchHistoryStore.svelte';
-  import { feedStore, type TabType, type Author, type ReplyInfo, type Target } from "$lib/feedStore.svelte";
+  import {
+    feedStore,
+    type TabType,
+    type Author,
+    type ReplyInfo,
+    type Target,
+    type FeedHistoryEntry,
+  } from "$lib/feedStore.svelte";
   import { toast } from '$lib/toast.svelte';
   import { safely } from '$lib/errorStore.svelte';
   import { updateWindowIcon, resetIcon } from '$lib/windowIcon';
@@ -55,9 +62,8 @@
   let isDraggingOver = $state(false);
 
   type HistoryItem = {
-    tab: TabType;
+    feedHistoryEntry: FeedHistoryEntry;
     scrollTop?: number;
-    feedTarget: Target;
     composeTarget: ComposeTarget | null;
   };
 
@@ -358,8 +364,7 @@
   function pushHistory() {
     if (isNavigatingBack || !feedSection) return;
     navigationHistory.push({
-      tab: feedStore.activeTab,
-      feedTarget: Object.assign({}, feedStore.target),
+      feedHistoryEntry: feedStore.snapshotHistoryEntry(),
       scrollTop: feedSection.scrollTop,
       composeTarget: composeTarget,
     });
@@ -373,17 +378,7 @@
     const prev = navigationHistory.pop();
 
     if (prev) {
-      switch (prev.tab) {
-        case 'user_posts':
-        case 'thread':
-        case 'quotes':
-        case 'search':
-        case 'feed':
-          feedStore.openTarget(prev.feedTarget);
-          break;
-        default:
-          await feedStore.switchTab(prev.tab);
-      }
+      feedStore.applyHistoryEntry(prev.feedHistoryEntry);
       composeTarget = prev.composeTarget;
 
       requestAnimationFrame(() => {
