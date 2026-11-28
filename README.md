@@ -31,7 +31,6 @@ It is the Bluesky counterpart to a Twitter client I previously built called *ﾋ
 - **Missed Posts on High-Volume Timelines:** If more than 50 posts are made within a 45-second window, some posts will be missed.
 - **Imperfect Scroll Restoration:** Because threads and other views do not cache posts, returning via the Back button may not accurately restore your previous scroll position.
 - **Restart Required for Mention Thread Settings:** Changes to the mention thread structure settings do not take effect until the app is restarted.
-- **Bookmark Button Glitch:** If the bookmark button is hidden from the toolbar and you navigate to a thread or another view from your bookmarks, the bookmark button will remain visible until you click another button.
 
 ## Roadmap
 
