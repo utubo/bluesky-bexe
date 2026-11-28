@@ -29,7 +29,6 @@ It is the Bluesky counterpart to a Twitter client I previously built called *ﾋ
 ## Known Issues (or Features)
 
 - **Missed Posts on High-Volume Timelines:** If more than 50 posts are made within a 45-second window, some posts will be missed.
-- **Restart Required for Mention Thread Settings:** Changes to the mention thread structure settings do not take effect until the app is restarted.
 
 ## Roadmap
 

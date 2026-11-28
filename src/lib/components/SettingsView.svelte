@@ -4,6 +4,7 @@
   import { msg } from '$lib/i18n.svelte';
   import { removeStoredAccount } from '$lib/auth';
   import { openConfirmDialog } from '$lib/customDialogStore.svelte';
+  import { feedStore } from '$lib/feedStore.svelte';
   import versionImage from '../../assets/version.png';
 
   let {
@@ -465,7 +466,10 @@
       <input
         type="checkbox"
         checked={settingsStore.enableProcessMentions}
-        onchange={() => settingsStore.toggle('enableProcessMentions')}
+        onchange={() => {
+          settingsStore.toggle('enableProcessMentions');
+          feedStore.resetCurrentPosts('mentions');
+        }}
       />
       <span>{msg.settingEnableProcessMentions}</span>
     </label>
